@@ -48,8 +48,8 @@ class Bucket(object):
         self.val -= 1
 
     def printSelf(self):
-        #sys.stdout.write(chr(self.val))
-        print(chr(self.val), self.num)
+        sys.stdout.write(chr(self.val))
+        #print(chr(self.val), self.num)
 
 bucket = Bucket()
 
@@ -58,17 +58,23 @@ index = 0
 def loop(ind):
     global bucket
     global index
-    print("start value", bucket.val)
+    #print("start value", bucket.val)
     if bucket.val == 0:
-        while code[index] != ']':
+        count = 0
+        index += 1
+        while code[index] != ']' or count > 0:
+            if code[index] == '[':
+                count += 1
+            if code[index] == ']':
+                count -= 1
             index += 1
         return
     index += 1
     while parse(index):
         index += 1
-        print(index)
+        #print(index)
     if bucket.val != 0:
-        print("end value", bucket.val)
+        #print("end value", bucket.val)
         index = ind
         loop(index)
 
@@ -88,10 +94,9 @@ def parse(ind):
         bucket = bucket.moveLeft()
     elif a == '[':
         loop(ind)
-        #return False
     elif a == ',':
         bucket.val = readInput()
-        print "Read in ", bucket.val
+        #print "Read in ", bucket.val
     elif a == ']':
         return False
     return True
